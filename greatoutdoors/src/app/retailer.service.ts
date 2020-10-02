@@ -32,4 +32,12 @@ export class RetailerService {
       }
     });
   }
+
+  deleteRetailer(id:string){
+  return this.http.delete(this.url+'/'+id).pipe(
+    catchError((error: HttpErrorResponse) => {
+      window.alert(error.error.message);
+      return throwError('Error deleting');}));
+  } 
 }
+

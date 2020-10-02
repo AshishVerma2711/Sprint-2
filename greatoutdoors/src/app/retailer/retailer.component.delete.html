@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete Retailer</h2>
+<mat-dialog-content class="mat-typography">
+    <h3>Do you want to delete retailer {{data}}?</h3>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="delete(data)" cdkFocusInitial>Delete</button>
+</mat-dialog-actions>
