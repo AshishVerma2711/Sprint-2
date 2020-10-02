@@ -1,0 +1,24 @@
+<table *ngIf="this.retailerService.retailerdb.length>0" class="table table-bordered table-striped table-primary table-hover">
+    <thead><th>Retailer Id</th>
+        <th>Retailer Name</th>
+        <th>Address</th>
+        <th>Zipcode</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let retailer of this.retailerService.retailerdb">
+            <td>{{retailer.retailerId}}</td>
+            <td>{{retailer.retailerName}}</td>
+            <td>{{retailer.address}}</td>
+            <td>{{retailer.zipcode}}</td>
+            <td>{{retailer.city}}</td>
+            <td>{{retailer.state}}</td>
+            <td>{{retailer.phoneNumber}}</td>
+            <td>{{retailer.email}}</td>
+            <td><button (click)="updateRetailer(retailer.retailerId)" class="btn btn-block btn-success">Update</button></td>
+        </tr>
+    </tbody>
+</table>
