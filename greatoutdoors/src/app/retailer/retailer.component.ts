@@ -16,7 +16,7 @@ export class RetailerComponent implements AfterViewInit, OnInit {
   constructor(public retailerService: RetailerService, public dialog: MatDialog) { }
 
   displayedColumns: string[] = ['retailerId', 'retailerName', 'address', 'zipcode', 'city', 'state', 'phoneNumber', 'email', 'update/delete'];
-  dataSource: any;
+  dataSource=new MatTableDataSource<Retailer>(this.retailerService.retailerdb);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -26,7 +26,6 @@ export class RetailerComponent implements AfterViewInit, OnInit {
   }
   ngOnInit(): void {
     this.retailerService.getRetaielrs();
-    this.dataSource = new MatTableDataSource<Retailer>(this.retailerService.retailerdb);
   }
 
   applyFilter(event: Event) {
@@ -147,7 +146,7 @@ export class AddRetailerDialog {
 @Component({
   selector: 'app-retailer-update',
   templateUrl: './retailer.component.update.html',
-  // styleUrls: ['./retailer.component.css']
+  styleUrls: ['./retailer.component.css']
 })
 
 export class UpdateRetailerDialog{
@@ -162,6 +161,42 @@ export class UpdateRetailerDialog{
   phoneNumber = new FormControl(this.retailer.phoneNumber, [Validators.required, Validators.pattern(/[6789][0-9]{9}/)]);
   email = new FormControl(this.retailer.email, [Validators.required, Validators.email]);
   
+  getRetailerNameErrorMessage() {
+    if (this.retailerName.hasError('required')) {
+      return 'You must enter a value';
+    }
+    return this.retailerName.hasError('pattern') ? 'Invalid Name! name must starts with capital letter and has atleast 2 characters.' : '';
+  }
+  getAddressErrorMessage() {
+    if (this.address.hasError('required'))
+      return 'You must enter a value';
+  }
+  getZipcodeErrorMessage() {
+    if (this.zipcode.hasError('required')) {
+      return 'You must enter a value';
+    }
+    return this.zipcode.hasError('pattern') ? 'Invalid Zipcode! Must be of 6 digits.' : '';
+  }
+  getCityErrorMessage() {
+    if (this.city.hasError('required'))
+      return 'You must enter a value';
+  }
+  getStateErrorMessage() {
+    if (this.state.hasError('required'))
+      return 'You must enter a value';
+  }
+  getPhoneNumberErrorMessage() {
+    if (this.phoneNumber.hasError('required')) {
+      return 'You must enter a value';
+    }
+    return this.phoneNumber.hasError('pattern') ? 'Invalid Phone Number.' : '';
+  }
+  getEmailErrorMessage() {
+    if (this.email.hasError('required')) {
+      return 'You must enter a value';
+    }
+    return this.email.hasError('email') ? 'Not a valid email' : '';
+  }
   update(){
     let temp:Retailer=new Retailer(this.retailerId.value,this.retailerName.value,this.address.value,this.zipcode.value,this.city.value,this.state.value,this.phoneNumber.value,this.email.value);
       this.retailerService.updateRetailer(temp).subscribe((data:Retailer)=>{

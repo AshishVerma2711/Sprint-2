@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Retailer</h2>
+<h2 mat-dialog-title>Update Retailer</h2>
 <div class="example-container">
     <mat-form-field appearance="outline">
         <mat-label>Retailer Id</mat-label>
@@ -7,37 +7,37 @@
     <mat-form-field appearance="outline">
         <mat-label>Retailer's Name</mat-label>
         <input matInput [formControl]="retailerName" required>
-        <!-- <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="retailerName.invalid">{{getNameErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Address</mat-label>
         <input matInput [formControl]="address" required>
-        <!-- <mat-error *ngIf="address.invalid">{{getAddressErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="address.invalid">{{getAddressErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Zipcode</mat-label>
         <input matInput [formControl]="zipcode" required>
-        <!-- <mat-error *ngIf="zipcode.invalid">{{getZipcodeErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="zipcode.invalid">{{getZipcodeErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>City</mat-label>
         <input matInput [formControl]="city" required>
-        <!-- <mat-error *ngIf="city.invalid">{{getCityErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="city.invalid">{{getCityErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>State</mat-label>
         <input matInput [formControl]="state" required>
-        <!-- <mat-error *ngIf="state.invalid">{{getStateErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="state.invalid">{{getStateErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Phone Number</mat-label>
         <input matInput [formControl]="phoneNumber" required>
-        <!-- <mat-error *ngIf="phoneNumber.invalid">{{getPhoneNumberErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="phoneNumber.invalid">{{getPhoneNumberErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput [formControl]="email" required>
-        <!-- <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error> -->
+        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancel</button>
