@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RetailerService } from './retailer.service';
+
+import { ProductService } from './product.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -35,7 +37,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     MatDialogModule
   ],
-  providers: [RetailerService],
+  providers: [RetailerService,ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
