@@ -39,5 +39,19 @@ export class RetailerService {
       window.alert(error.error.message);
       return throwError('Error deleting');}));
   } 
+
+  addRetaIler(retailer:Retailer){
+     return this.http.post(this.url,retailer).pipe(
+      catchError((error: HttpErrorResponse) => {
+        window.alert(error.error.message);
+        return throwError('Error Adding'+error.error.message);}));
+  }
+
+  updateRetailer(retailer:Retailer){
+   return this.http.put(this.url,retailer).pipe(
+      catchError((error: HttpErrorResponse) => {
+        window.alert(error.error.message);
+        return throwError('Error Updating '+error.error.message);}));
+  }
 }
 
