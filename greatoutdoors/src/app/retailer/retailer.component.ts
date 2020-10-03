@@ -44,7 +44,6 @@ export class RetailerComponent implements AfterViewInit, OnInit {
   updateDialog(retailer:Retailer) {
     console.log(retailer.retailerId);
     const dialogRef = this.dialog.open(UpdateRetailerDialog, {
-      width: '250px',
       data: retailer
     });
   }
