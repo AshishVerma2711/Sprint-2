@@ -1,1 +1,158 @@
-<p>product works!</p>
+
+<div class="container" id="container">
+<h2 class="mat-display-2">Search Product</h2>
+<form class="example">
+    <input type="text" placeholder="Search a product" name="search" id="search" [(ngModel)]="myInput">
+    <button type="submit" (click)="applySearchFilter()"><i class="fa fa-search"></i></button>
+  </form>
+</div>
+
+<div class="container">
+   <!-- <h1 style="text-align: center;color: blue;margin-top: 45px;">List of Products</h1>-->
+    <table class="table table-dark" id="applicant" style="margin-top: 45px;">
+        <tr><td colspan="8" style="text-align: center; color: blue;"><h1>List Of Products</h1></td></tr>
+      <tr>
+        <td>Product Id</td>
+        <td>Product  Name</td>
+        <td>Category</td>
+        <td>Description</td>
+       
+        <td>Price</td>
+        <td>Manufacturer</td>
+        <td>Delete</td>
+        <td>Update</td>
+        
+      </tr>
+      <tr *ngFor="let product of productList">
+        <td>{{product.productId}}</td>
+        <td>{{product.productName}}</td>
+        <td>{{product.category}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.manufacturer}}</td>
+        <td><button class="btn btn-success" (click)="onRemove(product.productId,product.productName)" value=Remove>Remove</button></td>
+        <td><button class="btn btn-success" (click)="onUpdate(product.productId,product.productName)" value=Update>Update</button></td>
+
+    </tr>
+    <tr>
+        <td colspan="8" style="text-align: center;"><button class="btn btn-success" (click)="onAdd()" value=Add>Add a Product</button></td>
+    </tr>
+    </table>
+  </div>
+
+
+  <div id="showSuccess" *ngIf="showSuccess" class="success">
+    <span>{{message}}</span>
+  </div>
+
+
+
+  <div id="updation" *ngIf="showUpdationForm">
+    <h2 style="text-align: center;">Update A Product</h2>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" id="myform">
+      <mat-form-field>
+        <mat-label style="color: blue;">Product Name</mat-label>
+        <input matInput [formControl]="productForm.controls['productName']" placeholder="productName">
+        <mat-error *ngIf="productForm.controls['productName'].hasError('required')">
+          Product Name is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="productForm.controls['productName'].hasError('pattern')">
+            In Product Name first character is <strong>capital</strong>
+          </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label style="color: blue;">Category</mat-label>
+        <input matInput [formControl]="productForm.controls['category']" placeholder="Category">
+        <mat-error *ngIf="productForm.controls['category'].hasError('required')">
+          Category is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="productForm.controls['category'].hasError('pattern')">
+          In Category first character is <strong>capital</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label style="color: blue;">Description</mat-label>
+        <input matInput [formControl]="productForm.controls['description']" placeholder="Description">
+        <mat-error *ngIf="productForm.controls['description'].hasError('required')">
+          Descrition is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="productForm.controls['description'].hasError('pattern')">
+          In Description first character is <strong>capital</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label style="color: blue;">Price</mat-label>
+        <input matInput [formControl]="productForm.controls['price']" placeholder="Price">
+        <mat-error *ngIf="productForm.controls['price'].hasError('required')">
+          Price is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label style="color: blue;">Manufacturer</mat-label>
+        <input matInput [formControl]="productForm.controls['manufacturer']" placeholder="manufacturer">
+        <mat-error *ngIf="productForm.controls['manufacturer'].hasError('required')">
+          Manufacturer is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="productForm.controls['manufacturer'].hasError('pattern')">
+          In manufacturer first character is <strong>capital</strong>
+        </mat-error>
+      </mat-form-field>
+      <button type="submit" id="submit">Update A Product</button>
+    </form>
+    </div>
+
+
+
+    <div id="updation" *ngIf="showAdditionForm">
+        <h2 style="text-align: center;">Add a Product</h2>
+        <form [formGroup]="productForm" (ngSubmit)="onAdding()" id="myform">
+          <mat-form-field>
+            <mat-label style="color: blue;">Product Name</mat-label>
+            <input matInput [formControl]="productForm.controls['productName']" placeholder="productName">
+            <mat-error *ngIf="productForm.controls['productName'].hasError('required')">
+              Product Name is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="productForm.controls['productName'].hasError('pattern')">
+                In Product Name first character is <strong>capital</strong>
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label style="color: blue;">Category</mat-label>
+            <input matInput [formControl]="productForm.controls['category']" placeholder="Category">
+            <mat-error *ngIf="productForm.controls['category'].hasError('required')">
+              Category is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="productForm.controls['category'].hasError('pattern')">
+              In Category first character is <strong>capital</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label style="color: blue;">Description</mat-label>
+            <input matInput [formControl]="productForm.controls['description']" placeholder="Description">
+            <mat-error *ngIf="productForm.controls['description'].hasError('required')">
+              Descrition is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="productForm.controls['description'].hasError('pattern')">
+              In Description first character is <strong>capital</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label style="color: blue;">Price</mat-label>
+            <input matInput [formControl]="productForm.controls['price']" placeholder="Price">
+            <mat-error *ngIf="productForm.controls['price'].hasError('required')">
+              Price is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label style="color: blue;">Manufacturer</mat-label>
+            <input matInput [formControl]="productForm.controls['manufacturer']" placeholder="manufacturer">
+            <mat-error *ngIf="productForm.controls['manufacturer'].hasError('required')">
+              Manufacturer is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="productForm.controls['manufacturer'].hasError('pattern')">
+              In manufacturer first character is <strong>capital</strong>
+            </mat-error>
+          </mat-form-field>
+          <button type="submit" id="submit">Add a Product</button>
+        </form>
+        </div>

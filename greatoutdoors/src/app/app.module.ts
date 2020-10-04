@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RetailerService } from './retailer.service';
+
+import { ProductService } from './product.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -17,6 +19,9 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
   declarations: [
@@ -42,9 +47,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    NgbModule
+    NgbModule,
+    MatListModule,
+    MatSelectModule,
+    
+    
   ],
-  providers: [RetailerService],
+  providers: [RetailerService,ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
