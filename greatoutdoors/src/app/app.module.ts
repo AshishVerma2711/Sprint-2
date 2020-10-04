@@ -3,12 +3,11 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
-import { AddRetailerDialog, DeleteRetailerDialog, RetailerComponent, UpdateRetailerDialog } from './retailer/retailer.component';
+import { RetailerComponent } from './retailer/retailer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RetailerService } from './retailer.service';
-
 import { ProductService } from './product.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
@@ -28,9 +27,6 @@ import { MatSelectModule } from '@angular/material/select';
     AppComponent,
     ProductComponent,
     RetailerComponent,
-    DeleteRetailerDialog,
-    AddRetailerDialog,
-    UpdateRetailerDialog
   ],
   imports: [
     BrowserModule,
@@ -50,8 +46,6 @@ import { MatSelectModule } from '@angular/material/select';
     NgbModule,
     MatListModule,
     MatSelectModule,
-    
-    
   ],
   providers: [RetailerService,ProductService],
   bootstrap: [AppComponent]

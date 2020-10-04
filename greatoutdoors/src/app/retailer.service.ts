@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpErrorResponse } from '@angular/common/http';
+import { HttpClient,HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Retailer } from './retailer';
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -13,42 +13,32 @@ export class RetailerService {
   private url:string='http://localhost:8085/retailerList';
 
   constructor(private http:HttpClient) { }
-
-  getRetaielrs(){
-    this.http.get<Retailer[]>(this.url).pipe(retry(0), catchError((error: HttpErrorResponse) => {
-      window.alert(error.error.message);
-      return throwError('Error fetching data from serve');})).subscribe(resp=>{
-      for(const i of(resp as any)){
-        this.retailerdb.push({
-          retailerId:i.retailerId,
-          retailerName:i.retailerName,
-          address:i.address,
-          zipcode:i.zipcode,
-          city:i.city,
-          state:i.state,
-          phoneNumber:i.phoneNumber,
-          email:i.email,
-        })
-      }
-    });
+  httpOptions={
+    headers:new HttpHeaders({'Content-Type':'application/json'})
   }
 
-  deleteRetailer(id:string){
-  return this.http.delete(this.url+'/'+id).pipe(
+  getRetaielrs():Observable<Retailer[]>{
+   return this.http.get<Retailer[]>(this.url).pipe(retry(0), catchError((error: HttpErrorResponse) => {
+      window.alert(error.error.message);
+      return throwError('Error fetching data from serve ');}));
+  }
+
+  deleteRetailer(id:string):Observable<Retailer>{
+  return this.http.delete<Retailer>(this.url+'/'+id,this.httpOptions).pipe(
     catchError((error: HttpErrorResponse) => {
       window.alert(error.error.message);
-      return throwError('Error deleting');}));
+      return throwError('Error deleting'+error.error.message);}));
   } 
 
-  addRetaIler(retailer:Retailer){
-     return this.http.post(this.url,retailer).pipe(
+  addRetaIler(retailer:Retailer):Observable<Retailer>{
+     return this.http.post<Retailer>(this.url,retailer,this.httpOptions).pipe(
       catchError((error: HttpErrorResponse) => {
         window.alert(error.error.message);
         return throwError('Error Adding'+error.error.message);}));
   }
 
-  updateRetailer(retailer:Retailer){
-   return this.http.put(this.url,retailer).pipe(
+  updateRetailer(retailer:Retailer):Observable<Retailer>{
+   return this.http.put<Retailer>(this.url,retailer,this.httpOptions).pipe(
       catchError((error: HttpErrorResponse) => {
         window.alert(error.error.message);
         return throwError('Error Updating '+error.error.message);}));

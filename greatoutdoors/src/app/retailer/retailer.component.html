@@ -1,37 +1,41 @@
-<table *ngIf="this.retailerService.retailerdb.length>0" class="table table-bordered table-striped table-hover">
-    <thead><th>Retailer Id</th>
-        <th>Retailer Name</th>
-        <th>Address</th>
-        <th>Zipcode</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Phone Number</th>
-        <th>Email</th>
+<div class="container">
+  <table class="table table-dark" style="margin-top: 45px;">
+    <thead>
+      <th>Retailer ID</th>
+      <th>Retailer Name</th>
+      <th>Address</th>
+      <th>Zipcode</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>Update</th>
+      <th>Delete</th>
     </thead>
     <tbody>
-        <tr *ngFor="let retailer of retailers">
-            <td>{{retailer.retailerId}}</td>
-            <td>{{retailer.retailerName}}</td>
-            <td>{{retailer.address}}</td>
-            <td>{{retailer.zipcode}}</td>
-            <td>{{retailer.city}}</td>
-            <td>{{retailer.state}}</td>
-            <td>{{retailer.phoneNumber}}</td>
-            <td>{{retailer.email}}</td>
-            <td><button mat-icon-button color="primary" aria-label="Example icon button with a vertical three dot icon">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" aria-label="Example icon button with a vertical three dot icon">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-        </tr>
+      <tr *ngFor="let retailer of retailers">
+        <td>{{retailer.retailerId}}</td>
+        <td>{{retailer.retailerName}}</td>
+        <td>{{retailer.address}}</td>
+        <td>{{retailer.zipcode}}</td>
+        <td>{{retailer.city}}</td>
+        <td>{{retailer.state}}</td>
+        <td>{{retailer.phoneNumber}}</td>
+        <td>{{retailer.email}}</td>
+        <td><button class="btn btn-success" (click)="onUpdate(retailer)">UPDATE</button></td>
+        <td><button class="btn btn-danger" (click)="onDelete(retailer.retailerId)">DELETE</button></td>
+      </tr>
+      <tr>
+        <td colspan="10" style="text-align: center;"><button class="btn btn-success" (click)="onAdd()" value=Add><i
+              class="material-icons">add</i>Add a
+            Retailer</button></td>
+      </tr>
     </tbody>
-</table>
+  </table>
+</div>
 <div class="d-flex justify-content-between p-2">
-  <ngb-pagination [collectionSize]="this.retailerService.retailerdb.length" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshRetailers()">
-  </ngb-pagination>
-
+  <ngb-pagination [collectionSize]="this.retailerService.retailerdb.length" [(page)]="page" [pageSize]="pageSize"
+    (pageChange)="refreshRetailers()"></ngb-pagination>
   <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshRetailers()">
     <option [ngValue]="2">2</option>
     <option [ngValue]="4">4</option>
@@ -39,85 +43,146 @@
   </select>
 </div>
 
-
-
-<button mat-mini-fab color="accent" (click)="addDialog()">
-  <mat-icon>add</mat-icon>
-</button>
-<div id="main" class="mat-elevation-z8">
-<mat-form-field>
-  <mat-label>Search</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. R10001" #input>
-</mat-form-field>
-
-  
-    <table mat-table [dataSource]="dataSource">
-  
-     
-      <ng-container matColumnDef="retailerId">
-        <th mat-header-cell *matHeaderCellDef> Retailer Id </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.retailerId}} </td>
-      </ng-container>
-  
-      
-      <ng-container matColumnDef="retailerName">
-        <th mat-header-cell *matHeaderCellDef> Retailer Name </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.retailerName}} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef> Address </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.address}} </td>
-      </ng-container>
-  
-
-      <ng-container matColumnDef="zipcode">
-        <th mat-header-cell *matHeaderCellDef> Zipcode </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.zipcode}} </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef> City </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.city}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef> State </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.state}} </td>
-      </ng-container>
-  
-
-      <ng-container matColumnDef="phoneNumber">
-        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.phoneNumber}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let retailer"> {{retailer.email}} </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="update/delete">
-        <th mat-header-cell *matHeaderCellDef> Update/Delete </th>
-        <td mat-cell *matCellDef="let retailer"> 
-            <button mat-icon-button color="primary" (click)="updateDialog(retailer)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button (click)="deleteDialog(retailer.retailerId)" mat-icon-button color="warn">
-                <mat-icon>delete</mat-icon>
-              </button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
-    </table>
-  
-    <mat-paginator [length]="this.retailerService.retailerdb.length" [pageSize]="2" [pageSizeOptions]="[1, 2, 5, 10, 20]"></mat-paginator>
+<div *ngIf="showSuccess" class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4 alert alert-success"><strong>{{message}}</strong><button class="btn btn-success"
+      style="float: right;" (click)="cancel()"><i class="material-icons">close</i></button></div>
+  <div class="col-sm-4"></div>
+</div>
+<div *ngIf="showAdditionForm" class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4 shadow p-3 mb-5 rounded" style="background-color: #EBEDEF;" id="updation">
+    <h1 style="text-align: center;">Add Retailer</h1>
+    <form [formGroup]="retailerForm" (ngSubmit)="add()" id="myform">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">Retailer Name</mat-label>
+        <input matInput [formControl]="retailerForm.controls['retailerName']">
+        <mat-error *ngIf="retailerForm.controls['retailerName'].hasError('required')">Reatiler Name is
+          <strong>required</strong></mat-error>
+        <mat-error *ngIf="retailerForm.controls['retailerName'].hasError('pattern')"> Invalid Name! name must starts
+          with capital letter and has atleast 2 characters.</mat-error>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">Address</mat-label>
+        <input matInput [formControl]="retailerForm.controls['address']" placeholder="Address">
+        <mat-error *ngIf="retailerForm.controls['address'].hasError('required')">Address is <strong>required</strong>
+        </mat-error>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">Zipcode</mat-label>
+        <input matInput [formControl]="retailerForm.controls['zipcode']" placeholder="Zipcode">
+        <mat-error *ngIf="retailerForm.controls['zipcode'].hasError('required')">Zipcode is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="retailerForm.controls['zipcode'].hasError('pattern')">Invalid Zipcode! Must be of 6 digits.
+        </mat-error>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">City</mat-label>
+        <input matInput [formControl]="retailerForm.controls['city']" placeholder="City">
+        <mat-error *ngIf="retailerForm.controls['city'].hasError('required')">City is <strong>required</strong>
+        </mat-error>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">State</mat-label>
+        <input matInput [formControl]="retailerForm.controls['state']" placeholder="State">
+        <mat-error *ngIf="retailerForm.controls['state'].hasError('required')">State is <strong>required</strong>
+        </mat-error>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">Phone Number</mat-label>
+        <input matInput [formControl]="retailerForm.controls['phoneNumber']" placeholder="Phone Number">
+        <mat-error *ngIf="retailerForm.controls['phoneNumber'].hasError('required')">Phone Number is
+          <strong>required</strong></mat-error>
+        <mat-error *ngIf="retailerForm.controls['phoneNumber'].hasError('pattern')">Invalid Phone Number.</mat-error>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label style="color: #009688;">Email</mat-label>
+        <input matInput [formControl]="retailerForm.controls['email']" placeholder="Email">
+        <mat-error *ngIf="retailerForm.controls['email'].hasError('required')">Email is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="retailerForm.controls['email'].hasError('pattern')">Not a valid email</mat-error>
+      </mat-form-field><br>
+      <button class="btn btn-primary" style="width: 48%;" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-success" style="width: 48%;" type="submit" id="submit">Add</button>
+    </form>
   </div>
+  <div class="col-sm-4"></div>
+</div>
+
+
+<div id="updation" *ngIf="showUpdationForm" class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4 shadow p-3 mb-5 bg-white rounded">
+    <h2 style="text-align: center;">Update Retailer</h2>
+    <form [formGroup]="retailerForm" (ngSubmit)="update()" id="myform">
+      <mat-form-field appearance="outline">
+        <mat-label style="color:#009688;">Retailer Id</mat-label>
+        <input matInput [formControl]="retailerForm.controls['retailerId']" disabled>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color:#009688 ;">Retailer Name</mat-label>
+        <input matInput [formControl]="retailerForm.controls['retailerName']" placeholder="Reatiler Name">
+        <mat-error *ngIf="retailerForm.controls['retailerName'].hasError('required')">Reatiler Name is
+          <strong>required</strong></mat-error>
+        <mat-error *ngIf="retailerForm.controls['retailerName'].hasError('pattern')"> Invalid Name! name must starts
+          with
+          capital letter and has atleast 2 characters.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color: #009688;">Address</mat-label>
+        <input matInput [formControl]="retailerForm.controls['address']" placeholder="Address">
+        <mat-error *ngIf="retailerForm.controls['address'].hasError('required')">Address is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color: #009688;">Zipcode</mat-label>
+        <input matInput [formControl]="retailerForm.controls['zipcode']" placeholder="Zipcode">
+        <mat-error *ngIf="retailerForm.controls['zipcode'].hasError('required')">Zipcode is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="retailerForm.controls['zipcode'].hasError('pattern')">Invalid Zipcode! Must be of 6 digits.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color: #009688;">City</mat-label>
+        <input matInput [formControl]="retailerForm.controls['city']" placeholder="City">
+        <mat-error *ngIf="retailerForm.controls['city'].hasError('required')">City is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color: #009688;">State</mat-label>
+        <input matInput [formControl]="retailerForm.controls['state']" placeholder="State">
+        <mat-error *ngIf="retailerForm.controls['state'].hasError('required')">State is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color: #009688;">Phone Number</mat-label>
+        <input matInput [formControl]="retailerForm.controls['phoneNumber']" placeholder="Phone Number">
+        <mat-error *ngIf="retailerForm.controls['phoneNumber'].hasError('required')">Phone Number is
+          <strong>required</strong></mat-error>
+        <mat-error *ngIf="retailerForm.controls['phoneNumber'].hasError('pattern')">Invalid Phone Number.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label style="color: #009688;">Email</mat-label>
+        <input matInput [formControl]="retailerForm.controls['email']" placeholder="Email">
+        <mat-error *ngIf="retailerForm.controls['email'].hasError('required')">Email is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="retailerForm.controls['email'].hasError('pattern')">Not a valid email</mat-error>
+      </mat-form-field>
+      <button class="btn btn-primary" style="width: 48%;" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-success" style="width: 48%;" type="submit" id="submit">Add</button>
+    </form>
+  </div>
+  <div class="col-sm-4"></div>
+</div>
+
+
+<div id="delete" class="row" *ngIf="showDeleteForm">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4 shadow p-3 mb-5 bg-white rounded"><h2 style="text-align: center;">Delete Retailer</h2>
+  <h3>Do you want to delete retailer {{this.id}}?</h3>
+  <span style="align-content: flex-end;">
+    <button class="btn btn-primary" style="width: 48%;" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-danger" style="width: 48%;" (click)="delete(this.id)" cdkFocusInitial>Delete</button>
+  </span></div>
+  <div class="col-sm-4"></div>
+</div>
