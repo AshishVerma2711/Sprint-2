@@ -13,19 +13,34 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class RetailerComponent implements AfterViewInit, OnInit {
 
-  constructor(public retailerService: RetailerService, public dialog: MatDialog) { }
+  constructor(public retailerService: RetailerService, public dialog: MatDialog) { 
+    this.refreshRetailers();
+  }
 
   displayedColumns: string[] = ['retailerId', 'retailerName', 'address', 'zipcode', 'city', 'state', 'phoneNumber', 'email', 'update/delete'];
   dataSource=new MatTableDataSource<Retailer>(this.retailerService.retailerdb);
 
+  page = 1;
+  pageSize = 2;
+  retailers: Retailer[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  refreshRetailers() {
+    this.retailers = this.retailerService.retailerdb
+      .map((retailer, i) => ({id: i + 1, ...retailer}))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
+   this.init();
+  }
+
+  init(){
     this.retailerService.getRetaielrs();
+    this.refreshRetailers();
   }
 
   applyFilter(event: Event) {
@@ -136,7 +151,7 @@ export class AddRetailerDialog {
     let temp:Retailer=new Retailer("",this.retailerName.value,this.address.value,this.zipcode.value,this.city.value,this.state.value,this.phoneNumber.value,this.email.value);
     this.retailerService.addRetaIler(temp).subscribe((data:Retailer)=>{
       window.alert("Retailer added with id: "+data.retailerId);
-      this.retailerService.retailerdb.push(temp);
+      this.retailerService.retailerdb.push(data);
       this.dialogRef.close();
     })
   }

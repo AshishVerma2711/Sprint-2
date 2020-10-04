@@ -1,4 +1,4 @@
-<!-- <table *ngIf="this.retailerService.retailerdb.length>0" class="table table-bordered table-striped table-hover">
+<table *ngIf="this.retailerService.retailerdb.length>0" class="table table-bordered table-striped table-hover">
     <thead><th>Retailer Id</th>
         <th>Retailer Name</th>
         <th>Address</th>
@@ -9,7 +9,7 @@
         <th>Email</th>
     </thead>
     <tbody>
-        <tr *ngFor="let retailer of this.retailerService.retailerdb">
+        <tr *ngFor="let retailer of retailers">
             <td>{{retailer.retailerId}}</td>
             <td>{{retailer.retailerName}}</td>
             <td>{{retailer.address}}</td>
@@ -27,7 +27,20 @@
             </td>
         </tr>
     </tbody>
-</table> -->
+</table>
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="this.retailerService.retailerdb.length" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshRetailers()">
+  </ngb-pagination>
+
+  <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshRetailers()">
+    <option [ngValue]="2">2</option>
+    <option [ngValue]="4">4</option>
+    <option [ngValue]="6">6</option>
+  </select>
+</div>
+
+
+
 <button mat-mini-fab color="accent" (click)="addDialog()">
   <mat-icon>add</mat-icon>
 </button>
@@ -40,55 +53,52 @@
   
     <table mat-table [dataSource]="dataSource">
   
-      <!-- Position Column -->
+     
       <ng-container matColumnDef="retailerId">
         <th mat-header-cell *matHeaderCellDef> Retailer Id </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.retailerId}} </td>
       </ng-container>
   
-      <!-- Name Column -->
+      
       <ng-container matColumnDef="retailerName">
         <th mat-header-cell *matHeaderCellDef> Retailer Name </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.retailerName}} </td>
       </ng-container>
   
-      <!-- Weight Column -->
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef> Address </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.address}} </td>
       </ng-container>
   
-      <!-- Symbol Column -->
+
       <ng-container matColumnDef="zipcode">
         <th mat-header-cell *matHeaderCellDef> Zipcode </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.zipcode}} </td>
       </ng-container>
 
-      <!-- Position Column -->
+
       <ng-container matColumnDef="city">
         <th mat-header-cell *matHeaderCellDef> City </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.city}} </td>
       </ng-container>
-  
-      <!-- Name Column -->
+
       <ng-container matColumnDef="state">
         <th mat-header-cell *matHeaderCellDef> State </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.state}} </td>
       </ng-container>
   
-      <!-- Weight Column -->
+
       <ng-container matColumnDef="phoneNumber">
         <th mat-header-cell *matHeaderCellDef> Phone Number </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.phoneNumber}} </td>
       </ng-container>
-  
-      <!-- Symbol Column -->
+
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
         <td mat-cell *matCellDef="let retailer"> {{retailer.email}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
+
       <ng-container matColumnDef="update/delete">
         <th mat-header-cell *matHeaderCellDef> Update/Delete </th>
         <td mat-cell *matCellDef="let retailer"> 
