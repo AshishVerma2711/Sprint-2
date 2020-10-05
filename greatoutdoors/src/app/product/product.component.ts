@@ -34,7 +34,8 @@ export class ProductComponent implements OnInit {
   errorMsg = '';
   imgURL: any;
   convertedImage: any;
-
+  searchFlag: boolean = false;
+  paginationFlag: boolean = true;
 
   constructor(public service: ProductService, public imgService: ImageService) {
 
@@ -43,6 +44,8 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
+    this.searchFlag = false;
+    this.paginationFlag = true;
   }
 
   public onFileChanged(event) {
@@ -79,17 +82,22 @@ export class ProductComponent implements OnInit {
     category: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
     description: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
     price: new FormControl('', [Validators.required]),
-    manufacturer: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),  
+    manufacturer: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
   })
 
 
   applySearchFilter() {
-    console.log(this.myInput);
+    this.searchFlag = true;
+    this.paginationFlag = false;
+    if (this.myInput === "") {
+      this.searchFlag = false;
+      this.paginationFlag = true;
+    }
     this.service.getProductByProductName(this.myInput).pipe(retry(1), catchError((error: HttpErrorResponse) => {
       this.message = error.error;
       return throwError('Error fetching data from serve');
     })).subscribe((data: any) => {
-      this.products = data;
+      this.productList = data;
       //this.refreshProducts();
 
     });
@@ -125,8 +133,8 @@ export class ProductComponent implements OnInit {
   }
 
 
-  onUpdate(id: any, product:Product) {
-    this.retrievedImage=null;
+  onUpdate(id: any, product: Product) {
+    this.retrievedImage = null;
     this.imgService.getImageByProductId(id).subscribe((data: any) => {
       this.base64Data = data.image;
       this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
@@ -149,7 +157,7 @@ export class ProductComponent implements OnInit {
 
   update() {
     console.log("update");
-    
+
     const uploadData = new FormData();
     if (this.productForm.valid) {
       this.postdata = new Product(this.productForm.get("productId").value, this.productForm.get("productName").value, this.productForm.get("category").value, this.productForm.get("description").value, this.productForm.get("price").value, this.productForm.get("manufacturer").value);
@@ -160,7 +168,7 @@ export class ProductComponent implements OnInit {
         let data2: any = data;
         this.refreshProducts();
         this.showUpdationForm = false;
-        uploadData.append('image', this.selectedFile,this.selectedFile.name);
+        uploadData.append('image', this.selectedFile, this.selectedFile.name);
         this.imgService.addImageByProductId(uploadData, this.productForm.get("productId").value)
           .subscribe(
             res => {
