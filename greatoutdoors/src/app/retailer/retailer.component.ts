@@ -141,6 +141,7 @@ export class RetailerComponent implements OnInit {
       this.retailerService.retailerdb.push(data);
       this.showAdditionForm=false;
       this.refreshRetailers();
+      window.location.reload();
     });}
   }
   update() {
@@ -165,6 +166,7 @@ export class RetailerComponent implements OnInit {
       this.showUpdationForm = false;
       this.showAdditionForm = false;
       this.refreshRetailers();
+      window.location.reload();
       this.showDeleteForm=false;
       this.message = id + " Product is deleted successfully";
     });
