@@ -133,6 +133,7 @@ export class ProductComponent implements OnInit {
       
         this.showUpdationForm=false;
         alert("Product Updated Successfully");
+        window.location.reload();
       })
     }
   }
