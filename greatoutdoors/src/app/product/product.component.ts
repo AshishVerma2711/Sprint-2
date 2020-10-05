@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { ImageService } from '../image.service';
 
 @Component({
   selector: 'app-product',
@@ -21,9 +22,12 @@ export class ProductComponent implements OnInit {
   showAdditionForm:boolean=false;
   productId:any;
   postdata:Product;
-  
+  base64Data:any;
+  retrievedImage:any;
+  images:any[]=[];
 
-  constructor(public service:ProductService) { }
+
+  constructor(public service:ProductService,public imgService:ImageService) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -33,6 +37,14 @@ export class ProductComponent implements OnInit {
   getProducts() {
     return this.service.getProducts().subscribe((data: any) => {
       this.productList = data;
+      for(let product of this.productList)
+        {
+          this.imgService.getImageByProductId(product.productId).subscribe((data:any)=>{
+            this.base64Data=data.image;
+            this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+            this.images.push(this.retrievedImage);
+          });
+        }
     })
     
   }
@@ -45,6 +57,7 @@ export class ProductComponent implements OnInit {
     description: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
     price: new FormControl('', [Validators.required]),
     manufacturer: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
+    image:new FormControl('',[Validators.required])
   })
   
 
