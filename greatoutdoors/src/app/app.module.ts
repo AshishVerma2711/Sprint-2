@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import {AdminModule} from './admin/admin.module';
 import { InventoryComponent } from './inventory/inventory.component'
+import { InventoryService } from './inventory.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { InventoryComponent } from './inventory/inventory.component'
     AdminModule,
     
   ],
-  providers: [RetailerService,ProductService],
+  providers: [RetailerService,ProductService,InventoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
