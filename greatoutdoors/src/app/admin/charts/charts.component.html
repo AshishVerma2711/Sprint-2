@@ -1,0 +1,27 @@
+<mat-grid-list cols="3" rowHeight="2:1" >
+ 
+    <mat-grid-tile *ngFor="let chart of pieCharts">
+        <canvas baseChart mat-card-md-image 
+        [data]="chart.ChartData"
+        [labels]="chart.ChartLabels"
+        [chartType]="chart.ChartType"
+        [options]='chart.ChartOptions'
+        [legend]='true'
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+        <mat-grid-tile-footer>{{chart.footer}}</mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngFor="let chart of barCharts">
+        <canvas baseChart mat-card-md-image 
+        [datasets]="chart.ChartData"
+        [labels]="chart.ChartLabels"
+        [chartType]="chart.ChartType"
+        [options]='chart.ChartOptions'
+        [legend]='true'
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+        <mat-grid-tile-footer>{{chart.footer}}</mat-grid-tile-footer>
+    </mat-grid-tile>
+
+</mat-grid-list>

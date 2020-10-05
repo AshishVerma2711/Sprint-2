@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+</head>
+
+<body>
+    <section>
+        <mat-accordion class="admin-headers-align">
+
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Quantity
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Delivered/Cancelled...
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form #OptionA='ngForm'>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Order Status</mat-label>
+                        <mat-select [(value)]="orderStatus" ngModel name='status'>
+                            <mat-option>None</mat-option>
+                            <mat-option value="All">All</mat-option>
+                            <mat-option value="Delivered">Delivered</mat-option>
+                            <mat-option value="Cancelled">Cancelled</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-button color="primary" (click)="toggle()" id="bt">
+                        {{buttonName}}
+                    </button>
+                    <mat-form-field appearance="fill" *ngIf="show">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date" required ngModel name='from'>
+                            <input matEndDate placeholder="End date" required ngModel name='to'>
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" *ngIf="!show">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput required [matDatepicker]="picker" ngModel name='date'>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="submit1()">Reset</button>
+                        <!-- <button mat-button color="primary" (click)="orderPlaced(OptionA.value)">Submit</button> -->
+                        <input type="reset" value="Reset">
+                    </mat-action-row>
+                </form>
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Cost
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Delivered/Cancelled...
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form #OptionB='ngForm'>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Order Status</mat-label>
+                        <mat-select [(value)]="orderStatus" ngModel name='status'>
+                            <mat-option>None</mat-option>
+                            <mat-option value="All">All</mat-option>
+                            <mat-option value="Delivered">Delivered</mat-option>
+                            <mat-option value="Cancelled">Cancelled</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-button color="primary" (click)="toggle()" id="bt">
+                        {{buttonName}}
+                    </button>
+                    <mat-form-field appearance="fill" *ngIf="show">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date" required ngModel name='from'>
+                            <input matEndDate placeholder="End date" required ngModel name='to'>
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" *ngIf="!show">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput required [matDatepicker]="picker" ngModel name='date'>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="submit2()">Submit</button>
+                        <!-- <button mat-button color="primary" (click)="orderPlaced(OptionA.value)">Submit</button> -->
+                        <input type="reset" value="Reset">
+                    </mat-action-row>
+                </form>
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Order Quantity
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Delivered/Cancelled...
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form #OptionC='ngForm'>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Order Status</mat-label>
+                        <mat-select [(value)]="orderStatus" ngModel name='status'>
+                            <mat-option>None</mat-option>
+                            <mat-option value="All">All</mat-option>
+                            <mat-option value="Delivered">Delivered</mat-option>
+                            <mat-option value="Cancelled">Cancelled</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-button color="primary" (click)="toggle()" id="bt">
+                        {{buttonName}}
+                    </button>
+                    <mat-form-field appearance="fill" *ngIf="show">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date" required ngModel name='from'>
+                            <input matEndDate placeholder="End date" required ngModel name='to'>
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" *ngIf="!show">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput required [matDatepicker]="picker" ngModel name='date'>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="submit3()">Submit</button>
+                        <!-- <button mat-button color="primary" (click)="orderPlaced(OptionA.value)">Submit</button> -->
+                        <input type="reset" value="Reset">
+                    </mat-action-row>
+                </form>
+            </mat-expansion-panel>
+
+        </mat-accordion>
+    </section>
+
+    <aside>
+        {{OptionA.value|json}}
+        <mat-card *ngIf="dataType['number']">
+            <mat-card-title>{{data}}</mat-card-title>
+            <mat-card-header>
+                {{dataHeader}}
+                {{dataDescription}}
+            </mat-card-header>
+        </mat-card>
+    </aside>
+</body>
+
+</html>
