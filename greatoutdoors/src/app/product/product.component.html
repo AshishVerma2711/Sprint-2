@@ -23,7 +23,7 @@
         <td>Update</td>
         
       </tr>
-      <tr *ngFor="let product of products">
+      <tr *ngFor="let product of products;">
         <td>{{product.productId}}</td>
         <td>{{product.productName}}</td>
         <td>{{product.category}}</td>
@@ -31,7 +31,7 @@
         <td>{{product.price}}</td>
         <td>{{product.manufacturer}}</td>
         <td><button class="btn btn-success" (click)="onRemove(product.productId,product.productName)" value=Remove>Remove</button></td>
-        <td><button class="btn btn-danger" (click)="onUpdate(product.productId,product.productName)" value=Update>Update</button></td>
+        <td><button class="btn btn-danger" (click)="onUpdate(product.productId,product)" value=Update>Update</button></td>
 
     </tr>
     <tr>
@@ -116,7 +116,8 @@
         <div class="col-sm-4"></div>
         <div class="col-sm-4 shadow p-3 mb-5 rounded" style="background-color: #EBEDEF;" id="addition">
           <h1 style="text-align: center;">Update Product</h1>
-          <form [formGroup]="productForm" (ngSubmit)="update()" id="myform">
+         <p style="text-align: center;"> <img [src]='retrievedImage' style="height: 100px; width: 100px;" alt="No Image Found"></p><br><br>
+          <form [formGroup]="productForm"  id="myform">
             <mat-form-field appearance="outline">
                 <mat-label style="color:#009688;">Product Id</mat-label>
                 <input matInput [formControl]="productForm.controls['productId']" disabled>
@@ -164,10 +165,12 @@
                 In manufacturer first character is <strong>capital</strong>
               </mat-error>
             </mat-form-field><br>
-           
+            <input accept="image/jpeg" type="file" (change)="onFileChanged($event)"><img [src]="imgURL" height="200" *ngIf="imgURL">
+            <br>
             <button class="btn btn-primary" style="width: 48%;" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;
-            <button class="btn btn-success" style="width: 48%;" type="submit" id="submit">Update</button>
+            <button class="btn btn-success" style="width: 48%;" (click)="update()">Update</button>
           </form>
+          
         </div>
         <div class="col-sm-4"></div>
       </div>
@@ -225,7 +228,7 @@
                 In manufacturer first character is <strong>capital</strong>
               </mat-error>
             </mat-form-field><br>
-           
+
             <button class="btn btn-primary" style="width: 48%;" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;
             <button class="btn btn-success" style="width: 48%;" type="submit" id="submit">Add</button>
           </form>
