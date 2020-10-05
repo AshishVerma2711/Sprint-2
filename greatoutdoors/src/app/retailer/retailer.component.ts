@@ -79,6 +79,15 @@ export class RetailerComponent implements OnInit {
     this.showUpdationForm = false;
     this.showAdditionForm = true;
     this.showDeleteForm = false;
+    this.retailerForm.controls["retailerId"].setValue("");
+    this.retailerForm.controls["retailerId"].disable();
+    this.retailerForm.controls["retailerName"].setValue("");
+    this.retailerForm.controls["address"].setValue("");
+    this.retailerForm.controls["zipcode"].setValue("");
+    this.retailerForm.controls["city"].setValue("");
+    this.retailerForm.controls["state"].setValue("");
+    this.retailerForm.controls["phoneNumber"].setValue("");
+    this.retailerForm.controls["email"].setValue("");
   }
   cancel() {
     this.showSuccess = false;
