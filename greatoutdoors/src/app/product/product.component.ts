@@ -102,6 +102,7 @@ export class ProductComponent implements OnInit {
       })).subscribe(data => {
         this.productList.push(this.postdata);
         alert("Product Updated Successfully");
+        window.location.reload();
       })
     }
   }
