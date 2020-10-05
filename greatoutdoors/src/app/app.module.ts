@@ -20,7 +20,7 @@ import {MatInputModule} from '@angular/material/input';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-
+import {AdminModule} from './admin/admin.module'
 
 @NgModule({
   declarations: [
@@ -46,6 +46,8 @@ import { MatSelectModule } from '@angular/material/select';
     NgbModule,
     MatListModule,
     MatSelectModule,
+    AdminModule,
+    
   ],
   providers: [RetailerService,ProductService],
   bootstrap: [AppComponent]

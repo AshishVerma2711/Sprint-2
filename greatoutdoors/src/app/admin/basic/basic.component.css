@@ -1,0 +1,58 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+  section {
+    margin: 0%;
+    float: left;
+    width: 30%;
+    height: 100%;
+    background-color: rgb(204, 193, 247);
+    
+  }
+  aside {
+    margin: 0%;
+    float: right;
+    width: 70%;
+    height: 100%;
+    background-color: rgb(169, 162, 192);
+    overflow:auto;
+  }
+
+  .admin-control-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .admin-control-container .mat-form-field {
+    width: 220px;
+  }
+  
+  .admin-control-container form {
+    margin-bottom: 20px;
+  }
+  
+  .admin-control-container form > * {
+    margin: 5px 0;
+  }
+  
+  .admin-control-container .mat-radio-button {
+    margin: 0 12px;
+  }
+  
+  .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+.admin-headers-align .mat-expansion-panel-header-title,
+.admin-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.admin-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-headers-align .mat-form-field + .mat-form-field{
+  margin-left: 8px;
+}
