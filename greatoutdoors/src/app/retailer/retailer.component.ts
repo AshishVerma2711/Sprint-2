@@ -1,222 +1,162 @@
 import { Component, ViewChild, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { RetailerService } from '../retailer.service'
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { Retailer } from '../retailer';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-retailer',
   templateUrl: './retailer.component.html',
   styleUrls: ['./retailer.component.css']
 })
-export class RetailerComponent implements AfterViewInit, OnInit {
+export class RetailerComponent implements OnInit {
 
-  constructor(public retailerService: RetailerService, public dialog: MatDialog) { 
+  constructor(public retailerService: RetailerService) {
     this.refreshRetailers();
   }
-
-  displayedColumns: string[] = ['retailerId', 'retailerName', 'address', 'zipcode', 'city', 'state', 'phoneNumber', 'email', 'update/delete'];
-  dataSource=new MatTableDataSource<Retailer>(this.retailerService.retailerdb);
-
   page = 1;
   pageSize = 2;
   retailers: Retailer[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  showUpdationForm: boolean = false;
+  showSuccess: boolean = false;
+  showAdditionForm: boolean = false;
+  showDeleteForm: boolean = false;
+  id: string;
+  message: string;
+
+  retailerForm = new FormGroup({
+    retailerId: new FormControl({disabled:true}),
+    retailerName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9:,.\s-]{2,30}$/)]),
+    address: new FormControl('', [Validators.required]),
+    zipcode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]),
+    city: new FormControl('', [Validators.required]),
+    state: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/[6789][0-9]{9}/)]),
+    email: new FormControl('', [Validators.required, Validators.email])
+  })
 
   refreshRetailers() {
     this.retailers = this.retailerService.retailerdb
-      .map((retailer, i) => ({id: i + 1, ...retailer}))
+      .map((retailer, i) => ({ id: i + 1, ...retailer }))
       .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
   ngOnInit(): void {
-   this.init();
+    this.init();
   }
 
-  init(){
-    this.retailerService.getRetaielrs();
-    this.refreshRetailers();
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  addDialog() {
-    const dialogRef = this.dialog.open(AddRetailerDialog);
-  }
-
-  updateDialog(retailer:Retailer) {
-    console.log(retailer.retailerId);
-    const dialogRef = this.dialog.open(UpdateRetailerDialog, {
-      data: retailer
+  init() {
+    this.retailerService.getRetaielrs().subscribe(resp => {
+      this.retailerService.retailerdb = resp;
+      this.refreshRetailers();
     });
   }
-  deleteDialog(id: string) {
+  onDelete(id: string) {
     console.log(id);
-    const dialogRef = this.dialog.open(DeleteRetailerDialog, {
-      width: '250px',
-      data: id
-    });
+    this.id = id;
+    this.showSuccess = false;
+    this.showUpdationForm = false;
+    this.showAdditionForm = false;
+    this.showDeleteForm = true;
   }
-}
-
-@Component({
-  selector: 'app-retailer-delete',
-  templateUrl: './retailer.component.delete.html',
-  styleUrls: ['./retailer.component.css']
-})
-
-export class DeleteRetailerDialog {
-  constructor(public retailerService: RetailerService, public dialogRef: MatDialogRef<DeleteRetailerDialog>, @Inject(MAT_DIALOG_DATA) public data) { }
-
-  delete(id: string) {
-    for (let i = 0; i < this.retailerService.retailerdb.length; i++) {
-      if (id == this.retailerService.retailerdb[i].retailerId) {
-        this.retailerService.deleteRetailer(id).subscribe((response:string)=> {console.log(response); window.alert(response) });
-        this.retailerService.retailerdb.splice(i, 1);
-        this.dialogRef.close();
-      }
-    }
+  onUpdate(retailer: Retailer) {
+    console.log(retailer);
+    this.showSuccess = false;
+    this.showUpdationForm = true;
+    this.showAdditionForm = false;
+    this.showDeleteForm = false;
+    this.retailerForm.controls["retailerId"].setValue(retailer.retailerId);
+    this.retailerForm.controls["retailerId"].disable();
+    this.retailerForm.controls["retailerName"].setValue(retailer.retailerName);
+    this.retailerForm.controls["address"].setValue(retailer.address);
+    this.retailerForm.controls["zipcode"].setValue(retailer.zipcode);
+    this.retailerForm.controls["city"].setValue(retailer.city);
+    this.retailerForm.controls["state"].setValue(retailer.state);
+    this.retailerForm.controls["phoneNumber"].setValue(retailer.phoneNumber);
+    this.retailerForm.controls["email"].setValue(retailer.email);
   }
-}
+  onAdd() {
+    this.showSuccess = false;
+    this.showUpdationForm = false;
+    this.showAdditionForm = true;
+    this.showDeleteForm = false;
+  }
+  cancel() {
+    this.showSuccess = false;
+    this.showUpdationForm = false;
+    this.showAdditionForm = false;
+    this.showDeleteForm = false;
+  }
 
-
-@Component({
-  selector: 'app-retailer-add',
-  templateUrl: './retailer.component.add.html',
-  styleUrls: ['./retailer.component.css']
-})
-
-export class AddRetailerDialog {
-
-  constructor(public retailerService: RetailerService,public dialogRef: MatDialogRef<AddRetailerDialog>){}
-
-  retailerName = new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9:,.\s-]{2,30}$/)]);
-  address = new FormControl('', [Validators.required]);
-  zipcode = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]);
-  city = new FormControl('', [Validators.required]);
-  state = new FormControl('', [Validators.required]);
-  phoneNumber = new FormControl('', [Validators.required, Validators.pattern(/[6789][0-9]{9}/)]);
-  email = new FormControl('', [Validators.required, Validators.email]);
-
-  getRetailerNameErrorMessage() {
-    if (this.retailerName.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.retailerName.hasError('pattern') ? 'Invalid Name! name must starts with capital letter and has atleast 2 characters.' : '';
-  }
-  getAddressErrorMessage() {
-    if (this.address.hasError('required'))
-      return 'You must enter a value';
-  }
-  getZipcodeErrorMessage() {
-    if (this.zipcode.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.zipcode.hasError('pattern') ? 'Invalid Zipcode! Must be of 6 digits.' : '';
-  }
-  getCityErrorMessage() {
-    if (this.city.hasError('required'))
-      return 'You must enter a value';
-  }
-  getStateErrorMessage() {
-    if (this.state.hasError('required'))
-      return 'You must enter a value';
-  }
-  getPhoneNumberErrorMessage() {
-    if (this.phoneNumber.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.phoneNumber.hasError('pattern') ? 'Invalid Phone Number.' : '';
-  }
-  getEmailErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.email.hasError('email') ? 'Not a valid email' : '';
-  }
+  // getRetailerNameErrorMessage() {
+  //   if (this.retailerName.value.hasError('required')) {
+  //     return 'You must enter a value';
+  //   }
+  //   return this.retailerName.value.hasError('pattern') ? 'Invalid Name! name must starts with capital letter and has atleast 2 characters.' : '';
+  // }
+  // getAddressErrorMessage() {
+  //   if (this.address.value.hasError('required'))
+  //     return 'You must enter a value';
+  // }
+  // getZipcodeErrorMessage() {
+  //   if (this.zipcode.value.hasError('required')) {
+  //     return 'You must enter a value';
+  //   }
+  //   return this.zipcode.value.hasError('pattern') ? 'Invalid Zipcode! Must be of 6 digits.' : '';
+  // }
+  // getCityErrorMessage() {
+  //   if (this.city.value.hasError('required'))
+  //     return 'You must enter a value';
+  // }
+  // getStateErrorMessage() {
+  //   if (this.state.value.hasError('required'))
+  //     return 'You must enter a value';
+  // }
+  // getPhoneNumberErrorMessage() {
+  //   if (this.phoneNumber.value.hasError('required')) {
+  //     return 'You must enter a value';
+  //   }
+  //   return this.phoneNumber.value.hasError('pattern') ? 'Invalid Phone Number.' : '';
+  // }
+  // getEmailErrorMessage() {
+  //   if (this.email.value.hasError('required')) {
+  //     return 'You must enter a value';
+  //   }
+  //   return this.email.value.hasError('email') ? 'Not a valid email' : '';
+  // }
 
   add() {
-    let temp:Retailer=new Retailer("",this.retailerName.value,this.address.value,this.zipcode.value,this.city.value,this.state.value,this.phoneNumber.value,this.email.value);
-    this.retailerService.addRetaIler(temp).subscribe((data:Retailer)=>{
-      window.alert("Retailer added with id: "+data.retailerId);
+    if (this.retailerForm.valid) {
+    let temp: Retailer = new Retailer("", this.retailerForm.get('retailerName').value, this.retailerForm.get('address').value, this.retailerForm.get('zipcode').value, this.retailerForm.get('city').value, this.retailerForm.get('state').value, this.retailerForm.get('phoneNumber').value, this.retailerForm.get('email').value);
+    this.retailerService.addRetaIler(temp).subscribe((data: Retailer) => {
+      window.alert("Retailer added with id: " + data.retailerId);
       this.retailerService.retailerdb.push(data);
-      this.dialogRef.close();
-    })
+      this.showAdditionForm=false;
+      this.refreshRetailers();
+    });}
   }
-}
-
-@Component({
-  selector: 'app-retailer-update',
-  templateUrl: './retailer.component.update.html',
-  styleUrls: ['./retailer.component.css']
-})
-
-export class UpdateRetailerDialog{
-  constructor(public retailerService: RetailerService, public dialogRef: MatDialogRef<UpdateRetailerDialog>, @Inject(MAT_DIALOG_DATA) public retailer:Retailer) { }
-  
-  retailerId=new FormControl(this.retailer.retailerId);
-  retailerName = new FormControl(this.retailer.retailerName, [Validators.required, Validators.pattern(/^[a-zA-Z0-9:,.\s-]{2,30}$/)]);
-  address = new FormControl(this.retailer.address, [Validators.required]);
-  zipcode = new FormControl(this.retailer.zipcode, [Validators.required, Validators.pattern(/^[0-9]{6}$/)]);
-  city = new FormControl(this.retailer.city, [Validators.required]);
-  state = new FormControl(this.retailer.state, [Validators.required]);
-  phoneNumber = new FormControl(this.retailer.phoneNumber, [Validators.required, Validators.pattern(/[6789][0-9]{9}/)]);
-  email = new FormControl(this.retailer.email, [Validators.required, Validators.email]);
-  
-  getRetailerNameErrorMessage() {
-    if (this.retailerName.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.retailerName.hasError('pattern') ? 'Invalid Name! name must starts with capital letter and has atleast 2 characters.' : '';
+  update() {
+    if (this.retailerForm.valid) {
+    let temp: Retailer = new Retailer(this.retailerForm.get('retailerId').value, this.retailerForm.get('retailerName').value, this.retailerForm.get('address').value, this.retailerForm.get('zipcode').value, this.retailerForm.get('city').value, this.retailerForm.get('state').value, this.retailerForm.get('phoneNumber').value, this.retailerForm.get('email').value);
+    this.retailerService.updateRetailer(temp).subscribe((data: Retailer) => {
+      window.alert("Retailer updated with id: " + data.retailerId);
+      this.retailerService.retailerdb.push(data);
+      this.refreshRetailers();
+      this.showUpdationForm=false;
+    });}
   }
-  getAddressErrorMessage() {
-    if (this.address.hasError('required'))
-      return 'You must enter a value';
-  }
-  getZipcodeErrorMessage() {
-    if (this.zipcode.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.zipcode.hasError('pattern') ? 'Invalid Zipcode! Must be of 6 digits.' : '';
-  }
-  getCityErrorMessage() {
-    if (this.city.hasError('required'))
-      return 'You must enter a value';
-  }
-  getStateErrorMessage() {
-    if (this.state.hasError('required'))
-      return 'You must enter a value';
-  }
-  getPhoneNumberErrorMessage() {
-    if (this.phoneNumber.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.phoneNumber.hasError('pattern') ? 'Invalid Phone Number.' : '';
-  }
-  getEmailErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
-    return this.email.hasError('email') ? 'Not a valid email' : '';
-  }
-  update(){
-    let temp:Retailer=new Retailer(this.retailerId.value,this.retailerName.value,this.address.value,this.zipcode.value,this.city.value,this.state.value,this.phoneNumber.value,this.email.value);
-      this.retailerService.updateRetailer(temp).subscribe((data:Retailer)=>{
-        window.alert("Retailer updated with id: "+data.retailerId);
-        // this.retailerService.retailerdb.push(temp);
-        this.dialogRef.close();
-      });
+  delete(id: string) {
+    this.retailerService.deleteRetailer(id).subscribe(response => {
+      for (let i = 0; i < this.retailerService.retailerdb.length; i++) {
+        if (id == this.retailerService.retailerdb[i].retailerId) {
+          this.retailerService.retailerdb.splice(i, 1);
+        }
+      }
+      this.showSuccess = true;
+      this.showUpdationForm = false;
+      this.showAdditionForm = false;
+      this.refreshRetailers();
+      this.showDeleteForm=false;
+      this.message = id + " Product is deleted successfully";
+    });
   }
 }
