@@ -151,6 +151,7 @@ export class RetailerComponent implements OnInit {
       this.retailerService.retailerdb.push(data);
       this.refreshRetailers();
       this.showUpdationForm=false;
+      window.location.reload();
     });}
   }
   delete(id: string) {

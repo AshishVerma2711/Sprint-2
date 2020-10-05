@@ -5,13 +5,15 @@ import { ChartsComponent } from './admin/charts/charts.component';
 import { ProductComponent } from './product/product.component';
 import { RetailerComponent } from './retailer/retailer.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 const routes: Routes = [
   {path:'retailer',component:RetailerComponent},
   {path:'product',component:ProductComponent},
   {path:'basic', component:BasicComponent},
   {path: 'charts', component:ChartsComponent},
-  {path:'inventory',component:InventoryComponent}
+  {path:'inventory',component:InventoryComponent},
+  {path:'dashboard',component:DashboardComponent}
 ];
 
 @NgModule({
