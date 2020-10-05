@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { BasicComponent } from './admin/basic/basic.component';
+import { ChartsComponent } from './admin/charts/charts.component';
 import { ProductComponent } from './product/product.component';
 import { RetailerComponent } from './retailer/retailer.component';
 
 const routes: Routes = [
   {path:'retailer',component:RetailerComponent},
   {path:'product',component:ProductComponent},
-  {path:'report', component:DashboardComponent}
+  {path:'basic', component:BasicComponent},
+  {path: 'charts', component:ChartsComponent}
 ];
 
 @NgModule({

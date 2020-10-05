@@ -95,7 +95,6 @@ monthlyOrderQuantity(){
   let barChartData2 = []
   let ChartData = [];
   let ChartLabel = [];
-  console.log("Before dual",ChartData, ChartLabel)
   for (let index = 0; index < 12; index++) {
     let lastdate = this.today.substr(0, 5) + this.lastDateMonthly[index];
     let startdate = this.today.substr(0, 5) + this.lastDateMonthly[index].substr(0, 2) + "-01";
