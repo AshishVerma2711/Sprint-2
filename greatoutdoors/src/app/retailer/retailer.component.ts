@@ -47,8 +47,8 @@ export class RetailerComponent implements OnInit {
   init() {
     this.retailerService.getRetaielrs().subscribe(resp => {
       this.retailerService.retailerdb = resp;
+      this.refreshRetailers();
     });
-    this.refreshRetailers();
   }
   onDelete(id: string) {
     console.log(id);
