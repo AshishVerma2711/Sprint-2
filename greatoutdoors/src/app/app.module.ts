@@ -20,13 +20,16 @@ import {MatInputModule} from '@angular/material/input';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import {AdminModule} from './admin/admin.module'
+import {AdminModule} from './admin/admin.module';
+import { InventoryComponent } from './inventory/inventory.component'
+import { InventoryService } from './inventory.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductComponent,
     RetailerComponent,
+    InventoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,7 @@ import {AdminModule} from './admin/admin.module'
     AdminModule,
     
   ],
-  providers: [RetailerService,ProductService],
+  providers: [RetailerService,ProductService,InventoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
