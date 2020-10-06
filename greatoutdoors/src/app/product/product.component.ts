@@ -16,7 +16,7 @@ import { Image } from '../image';
 export class ProductComponent implements OnInit {
   productList: Product[] = [];
   message: string;
-  myInput: string;
+  myInput: string='';
   showUpdationForm: boolean = false;
   showSuccess: boolean = false;
   showAdditionForm: boolean = false;
@@ -95,6 +95,7 @@ export class ProductComponent implements OnInit {
     }
     this.service.getProductByProductName(this.myInput).pipe(retry(1), catchError((error: HttpErrorResponse) => {
       this.message = error.error;
+      alert(this.message);
       return throwError('Error fetching data from serve');
     })).subscribe((data: any) => {
       this.productList = data;
@@ -167,6 +168,7 @@ export class ProductComponent implements OnInit {
         console.log(data);
         let data2: any = data;
         this.refreshProducts();
+        window.location.reload();
         this.showUpdationForm = false;
         uploadData.append('image', this.selectedFile, this.selectedFile.name);
         this.imgService.addImageByProductId(uploadData, this.productForm.get("productId").value)
@@ -213,6 +215,8 @@ export class ProductComponent implements OnInit {
 
       this.postdata = new Product(null, this.productForm.get("productName").value, this.productForm.get("category").value, this.productForm.get("description").value, this.productForm.get("price").value, this.productForm.get("manufacturer").value);
       this.service.addProduct(this.postdata).pipe(retry(1), catchError((error: HttpErrorResponse) => {
+        this.message=error.error;
+        alert(this.message);
         return throwError('Error fetching data from serve');
       })).subscribe(data => {
         let product: Product = data;
