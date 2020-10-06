@@ -23,19 +23,19 @@ export class InventoryService {
     return this.http.get<Inventory>(this.localurl1);
   }
 
-  getProductByProductId(productId:string):Observable<Inventory>{
+  public getProductByProductId(productId:string):Observable<Inventory>{
     return this.http.get<Inventory>(this.localurl2+"?productId"+productId);
   }
 
-  getProductByRetailerId(retailerId:string):Observable<Inventory>{
+  public getProductByRetailerId(retailerId:string):Observable<Inventory>{
     return this.http.get<Inventory>(this.localurl3+"?retailerId"+retailerId);
   }
 
-  addProduct(inventory:Inventory):Observable<Inventory>{
+  public addProduct(inventory:Inventory):Observable<Inventory>{
     return this.http.post<Inventory>(this.localurl4,inventory,this.httpOptions);
   }
 
-  updateInventory(inventory:Inventory):Observable<Inventory>{
+  public updateInventory(inventory:Inventory):Observable<Inventory>{
     return this.http.put<Inventory>(this.localurl5,inventory,this.httpOptions);
   }
 }
