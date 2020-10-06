@@ -39,7 +39,7 @@ export class InventoryComponent implements OnInit {
   productForm = new FormGroup({
     productId: new FormControl('', [Validators.required, Validators.pattern(/^[P]{1}[0-9]{5}$/)]),
     retailerId: new FormControl('', [Validators.required, Validators.pattern(/^[R]{1}[0-9]{5}$/)]),
-    category: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{0,}$/)]),
+    units: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{0,}$/)]),
   })
 
   public applySearchFilter(){
