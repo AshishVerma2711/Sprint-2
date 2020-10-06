@@ -6,6 +6,7 @@ import { ProductComponent } from './product/product.component';
 import { RetailerComponent } from './retailer/retailer.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { OrderComponent } from './order/order.component';
 
 const routes: Routes = [
   {path:'retailer',component:RetailerComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path:'basic', component:BasicComponent},
   {path: 'charts', component:ChartsComponent},
   {path:'inventory',component:InventoryComponent},
-  {path:'dashboard',component:DashboardComponent}
+  {path:'dashboard',component:DashboardComponent},
+  {path:'order',component:OrderComponent}
 ];
 
 @NgModule({

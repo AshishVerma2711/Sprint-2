@@ -8,11 +8,11 @@ import { Inventory } from './inventory';
 })
 export class InventoryService {
 
-  localurl1:string="http://localhost:9090/api/viewInventory";
-  localurl2:string="http://localhost:9090/api/viewInventoryByProductId";
-  localurl3:string="http://localhost:9090/api/viewInventoryByRetailerId";
-  localurl4:string="http://localhost:9090/api/addProductToInventory";
-  localurl5:string="http://localhost:9090/api/updateInventory"; 
+  localurl1:string="http://localhost:9091/api/viewInventory";
+  localurl2:string="http://localhost:9091/api/viewInventoryByProductId";
+  localurl3:string="http://localhost:9091/api/viewInventoryByRetailerId";
+  localurl4:string="http://localhost:9091/api/addProductToInventory";
+  localurl5:string="http://localhost:9091/api/updateInventory"; 
 
   constructor(private http: HttpClient) { }
   httpOptions={

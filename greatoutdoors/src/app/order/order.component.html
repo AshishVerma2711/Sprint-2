@@ -1,0 +1,43 @@
+<div class="container">
+    <table class="table table-dark" style="margin-top: 45px;">
+        <thead>
+            <th>Order ID</th>
+            <th>User ID</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Change Status</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of this.orderService.orderdb">
+                <td>{{order.orderId}}</td>
+                <td>{{order.userId}}</td>
+                <td>{{order.status}}</td>
+                <td>₹.{{order.amount}}</td>
+                <td>{{order.orderDate}}</td>
+                <td><button class="btn btn-success" (click)="onChange(order)">Change</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="row" style="margin-top: 45px;">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4 shadow p-3 mb-5 rounded" *ngIf="changeFlag">
+        <h1 style="text-align: center;">Change Order Status</h1>
+        <mat-form-field appearance="fill">
+            <mat-label>{{status}}</mat-label>
+            <mat-select [(ngModel)]="changedStatus">
+                <mat-option value="Pending">Pending</mat-option>
+                <mat-option value="Canceled">Canceled</mat-option>
+                <mat-option value="OnHold">OnHold</mat-option>
+                <mat-option value="InProgress">InProgress</mat-option>
+                <mat-option value="Delivered">Delivered</mat-option>
+            </mat-select>
+        </mat-form-field><br>
+        <button class="btn btn-primary" style="width: 47%;" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-success" style="width: 47%;" (click)="update()">Change</button>
+    </div>
+    <div class="col-sm-4"></div>
+</div>

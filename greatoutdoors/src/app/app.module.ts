@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {AdminModule} from './admin/admin.module';
 import { InventoryComponent } from './inventory/inventory.component'
 import { InventoryService } from './inventory.service';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { InventoryService } from './inventory.service';
     ProductComponent,
     RetailerComponent,
     InventoryComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
