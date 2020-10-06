@@ -56,7 +56,7 @@ export class InventoryComponent implements OnInit {
     this.productForm.controls["units"].setValue(product.units);
   }  
 
-  public onSubmit() {
+  public update() {
     if (this.productForm.valid) {
 
       this.postdata = new Inventory(new InventoryId(this.productForm.controls["productId"].value, this.productForm.get("retailerId").value), this.productForm.get("units").value);
@@ -65,6 +65,7 @@ export class InventoryComponent implements OnInit {
       })).subscribe(data => {
         this.inventoryList.push(this.postdata);
         alert("Product Updated Successfully");
+        window.location.reload();
       })
     }
   }
@@ -81,7 +82,7 @@ export class InventoryComponent implements OnInit {
     this.productForm.controls["retailerId"].enable();
   }
 
-  public onAdding()
+  public add()
   {
     if (this.productForm.valid) {
 
@@ -92,6 +93,7 @@ export class InventoryComponent implements OnInit {
         let product:Inventory=data;
         this.inventoryList.push(product);
         alert("Product Added Successfully");
+        window.location.reload();
       })
     }
   }

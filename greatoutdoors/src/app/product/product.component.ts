@@ -38,7 +38,6 @@ export class ProductComponent implements OnInit {
   paginationFlag: boolean = true;
 
   constructor(public service: ProductService, public imgService: ImageService) {
-
     this.refreshProducts();
   }
 
@@ -92,6 +91,7 @@ export class ProductComponent implements OnInit {
     if (this.myInput === "") {
       this.searchFlag = false;
       this.paginationFlag = true;
+      return;
     }
     this.service.getProductByProductName(this.myInput).pipe(retry(1), catchError((error: HttpErrorResponse) => {
       this.message = error.error;

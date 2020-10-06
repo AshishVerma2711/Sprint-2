@@ -11,7 +11,6 @@ export class OrderComponent implements OnInit {
 
   constructor(public orderService: OrderService) { }
 
-  status:string;
   changeFlag:boolean=false;
   id:string;
   changedStatus:string;
@@ -24,13 +23,14 @@ export class OrderComponent implements OnInit {
   }
 
   onChange(order:Order){
+
       this.changeFlag=true;
-      this.status=order.status;
+      this.changedStatus=order.status;
       this.id=order.orderId;
   }
   cancel(){
     this.changeFlag=false;
-      this.status=null;
+      this.changedStatus=null;
       this.id=null;
   }
 
