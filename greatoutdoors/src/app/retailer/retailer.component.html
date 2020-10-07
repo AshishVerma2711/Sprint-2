@@ -1,6 +1,6 @@
 <div class="container">
-  <table class="table table-dark" style="margin-top: 45px;">
-    <thead>
+  <table class="table table-bordered" style="margin-top: 45px;">
+    <thead class="thead-dark"> 
       <th>Retailer ID</th>
       <th>Retailer Name</th>
       <th>Address</th>
@@ -33,6 +33,8 @@
     </tbody>
   </table>
 </div>
+
+
 <div class="d-flex justify-content-between p-2">
   <ngb-pagination [collectionSize]="this.retailerService.retailerdb.length" [(page)]="page" [pageSize]="pageSize"
     (pageChange)="refreshRetailers()"></ngb-pagination>
