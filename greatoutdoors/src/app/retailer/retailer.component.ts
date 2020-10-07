@@ -135,7 +135,7 @@ export class RetailerComponent implements OnInit {
 
   add() {
     if (this.retailerForm.valid) {
-    let temp: Retailer = new Retailer("", this.retailerForm.get('retailerName').value, this.retailerForm.get('address').value, this.retailerForm.get('zipcode').value, this.retailerForm.get('city').value, this.retailerForm.get('state').value, this.retailerForm.get('phoneNumber').value, this.retailerForm.get('email').value);
+    let temp: Retailer = new Retailer(null, this.retailerForm.get('retailerName').value, this.retailerForm.get('address').value, this.retailerForm.get('zipcode').value, this.retailerForm.get('city').value, this.retailerForm.get('state').value, this.retailerForm.get('phoneNumber').value, this.retailerForm.get('email').value);
     this.retailerService.addRetaIler(temp).subscribe((data: Retailer) => {
       window.alert("Retailer added with id: " + data.retailerId);
       this.retailerService.retailerdb.push(data);
