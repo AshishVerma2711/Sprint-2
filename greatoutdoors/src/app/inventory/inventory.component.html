@@ -1,1 +1,97 @@
-<p>inventory works!</p>
+
+<div class="container">
+     <table class="table table-dark" id="applicant" style="margin-top: 45px;">
+         <tr><td colspan="8" style="text-align: center; color: blue;"><h1>List Of Products</h1></td></tr>
+       <tr>
+         <td>Product Id</td>
+         <td>Retailer Id</td>
+         <td>Units</td>
+         <td>Update</td>
+       </tr>
+       <tr *ngFor="let product of inventoryList">
+         <td>{{product.inventoryId.productId}}</td>
+         <td>{{product.inventoryId.retailerId}}</td>
+         <td>{{product.units}}</td>
+         <td><button class="btn btn-success" (click)="onUpdate(product)" value=Update>Update</button></td>
+     </tr>
+     <tr>
+         <td colspan="8" style="text-align: center;"><button class="btn btn-success" (click)="onAdd()" value=Add>Add a Product</button></td>
+     </tr>
+     </table>
+   </div>
+
+   <div id="showSuccess" *ngIf="showSuccess" class="success">
+    <span>{{message}}</span>
+  </div>
+
+        <div *ngIf="showAdditionForm" class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4 shadow p-3 mb-5 rounded" style="background-color: #EBEDEF;" id="addition">
+            <h1 style="text-align: center;">Add to Inventory</h1>
+            <form [formGroup]="productForm" (ngSubmit)="add()" id="myform">
+        
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label style="color: #009688;">Product Id</mat-label>
+                <input matInput [formControl]="productForm.controls['productId']">
+                <mat-error *ngIf="productForm.controls['productId'].hasError('required')">Product Id is
+                  <strong>required</strong></mat-error>
+                <mat-error *ngIf="productForm.controls['productId'].hasError('pattern')"> Invalid Id! Id must starts
+                  with capital letter 'P' and has atleast 5 digits.</mat-error>
+              </mat-form-field><br>
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label style="color: #009688;">Retailer Id</mat-label>
+                <input matInput [formControl]="productForm.controls['retailerId']" placeholder="retailerId">
+                <mat-error *ngIf="productForm.controls['retailerId'].hasError('required')">Retailer Id is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="productForm.controls['retailerId'].hasError('pattern')"> Invalid Id! Id must starts
+                  with capital letter 'R' and has atleast 5 digits.</mat-error>
+              </mat-form-field><br>
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label style="color: #009688;">Units</mat-label>
+                <input matInput [formControl]="productForm.controls['units']" placeholder="units">
+                <mat-error *ngIf="productForm.controls['units'].hasError('required')">
+                  Units is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="productForm.controls['units'].hasError('pattern')">
+                  In Units all are digits.
+                </mat-error>
+              </mat-form-field><br>        
+              <button class="btn btn-success" style="width: 48%;" type="submit" id="submit">Add</button>
+            </form>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+
+        
+        <div *ngIf="showUpdationForm" class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4 shadow p-3 mb-5 rounded" style="background-color: #EBEDEF;" id="addition">
+            <h1 style="text-align: center;">Update Product</h1>
+            <form [formGroup]="productForm" id="myform">
+              <mat-form-field appearance="outline">
+                <mat-label style="color:#009688;">Product Id</mat-label>
+                <input matInput [formControl]="productForm.controls['productId']" disabled>
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label style="color: #009688;">Retailer Id</mat-label>
+                <input matInput [formControl]="productForm.controls['retailerId']">
+                <mat-error *ngIf="productForm.controls['retailerId'].hasError('required')">Retailer Id is
+                  <strong>required</strong></mat-error>
+                <mat-error *ngIf="productForm.controls['retailerId'].hasError('pattern')"> Invalid Id! Id must starts
+                  with capital letter 'R' and has atleast 5 digits.</mat-error>
+              </mat-form-field><br>
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label style="color: #009688;">Units</mat-label>
+                <input matInput [formControl]="productForm.controls['units']" placeholder="units">
+                <mat-error *ngIf="productForm.controls['units'].hasError('required')">Units is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="productForm.controls['units'].hasError('pattern')"> In Units all are digits.
+                </mat-error>
+              </mat-form-field><br>
+              <button class="btn btn-success" style="width: 48%;" (click)="update()">Update</button>
+            </form>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+        
+        
