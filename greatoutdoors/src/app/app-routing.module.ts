@@ -13,7 +13,8 @@ const routes: Routes = [
   {path:'basic', component:BasicComponent},
   {path: 'charts', component:ChartsComponent},
   {path:'inventory',component:InventoryComponent},
-  {path:'order',component:OrderComponent}
+  {path:'order',component:OrderComponent},
+  {path:'',component:ProductComponent}
 ];
 
 @NgModule({

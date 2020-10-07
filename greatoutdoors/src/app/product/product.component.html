@@ -1,21 +1,25 @@
-<div class="container" id="container">
-  <h2 class="mat-display-2">Search Product</h2>
-  <form class="example">
-    <input type="text" placeholder="Search a product" name="search" id="search" [(ngModel)]="myInput">
-    <button type="submit" (click)="applySearchFilter()"><i class="fa fa-search"></i></button>
+
+  <div class="row">
+    <div class="col-sm-4 shadow p-3 mb-5 rounded" style="margin-top: 20px; margin-left: auto; margin-right: auto;">
+  <h2 class="mat-display-2" style="text-align: center;">Search Product</h2>
+  <form class="form-inline"><div class="row" style="margin-left: auto; margin-right: auto;"> 
+    <input class="form-control" type="text" name="myInput" placeholder="Search a product" [(ngModel)]="myInput" style="text-align: center;">
+    <button class="btn btn-primary" (click)="applySearchFilter()"><i class="fa fa-search"></i></button></div>
   </form>
 </div>
+</div>
+
 
 <div *ngIf="paginationFlag">
   <div class="container">
     <!-- <h1 style="text-align: center;color: blue;margin-top: 45px;">List of Products</h1>-->
-    <table class="table table-dark" id="applicant" style="margin-top: 45px;">
+    <table class="table table-bordered" id="applicant" style="margin-top: 45px;">
       <tr>
-        <td colspan="8" style="text-align: center; color: blue;">
+        <td colspan="8" style="text-align: center; color: white; background-color: #1f693c;">
           <h1>List Of Products</h1>
         </td>
       </tr>
-      <tr>
+      <tr class="bold">
         <td>Product Id</td>
         <td>Product Name</td>
         <td>Category</td>

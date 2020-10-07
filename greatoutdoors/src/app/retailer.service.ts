@@ -10,7 +10,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class RetailerService {
 
   public retailerdb:Retailer[]=[];
-  private url:string='http://localhost:8085/retailerList';
+  private url:string='http://localhost:8084/retailerList';
 
   constructor(private http:HttpClient) { }
   httpOptions={

@@ -1,3 +1,21 @@
 mat-form-field{
     width:100%;
 }
+
+ngb-pagination ::ng-deep a {
+    color: black !important;
+    
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link {
+    border-color: white;
+    background-color: #1f693c;
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link:focus, .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem #1f693c;
+  }
+  
+  ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem #1f693c;
+  }
