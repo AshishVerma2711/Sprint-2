@@ -36,6 +36,7 @@ export class ProductComponent implements OnInit {
   convertedImage: any;
   searchFlag: boolean = false;
   paginationFlag: boolean = true;
+  searchList:Product[]=[];
 
   constructor(public service: ProductService, public imgService: ImageService) {
     this.refreshProducts();
@@ -88,6 +89,7 @@ export class ProductComponent implements OnInit {
   applySearchFilter() {
     this.searchFlag = true;
     this.paginationFlag = false;
+    this.searchList=[];
     if (this.myInput === "") {
       this.searchFlag = false;
       this.paginationFlag = true;
@@ -98,7 +100,7 @@ export class ProductComponent implements OnInit {
       alert(this.message);
       return throwError('Error fetching data from serve');
     })).subscribe((data: any) => {
-      this.productList = data;
+      this.searchList = data;
       //this.refreshProducts();
 
     });
@@ -168,8 +170,9 @@ export class ProductComponent implements OnInit {
         console.log(data);
         let data2: any = data;
         this.refreshProducts();
-        window.location.reload();
+        //window.location.reload();
         this.showUpdationForm = false;
+        if(this.selectedFile){
         uploadData.append('image', this.selectedFile, this.selectedFile.name);
         this.imgService.addImageByProductId(uploadData, this.productForm.get("productId").value)
           .subscribe(
@@ -178,6 +181,7 @@ export class ProductComponent implements OnInit {
               this.receivedImageData = res;
               this.base64Data = this.receivedImageData.image;
               this.convertedImage = 'data:image/jpeg;base64,' + this.base64Data;
+             
             },
             err => {
               console.log('Error Occured during saving: ' + err);
@@ -185,8 +189,10 @@ export class ProductComponent implements OnInit {
               this.errorMsg = 'Error Occured during saving\n' + err
             }
           );
+        }
         alert("Product Updated Successfully");
         window.location.reload();
+      
       })
     }
   }
