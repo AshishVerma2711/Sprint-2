@@ -13,7 +13,7 @@
 <div *ngIf="paginationFlag">
   <div class="container">
     <!-- <h1 style="text-align: center;color: blue;margin-top: 45px;">List of Products</h1>-->
-    <table class="table table-bordered" id="applicant" style="margin-top: 45px;">
+    <table class="table table-bordered" id="applicant" style="margin-top: 30px;">
       <tr>
         <td colspan="8" style="text-align: center; color: white; background-color: #1f693c;">
           <h1>List Of Products</h1>
@@ -199,9 +199,6 @@
         <mat-error *ngIf="productForm.controls['description'].hasError('required')">
           Descrition is <strong>required</strong>
         </mat-error>
-        <mat-error *ngIf="productForm.controls['description'].hasError('pattern')">
-          In Description first character is <strong>capital</strong>
-        </mat-error>
       </mat-form-field><br>
       <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label style="color: #009688;">Price</mat-label>
@@ -263,9 +260,6 @@
         <input matInput [formControl]="productForm.controls['description']" placeholder="Description">
         <mat-error *ngIf="productForm.controls['description'].hasError('required')">
           Descrition is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="productForm.controls['description'].hasError('pattern')">
-          In Description first character is <strong>capital</strong>
         </mat-error>
       </mat-form-field><br>
       <mat-form-field appearance="outline" style="width: 100%;">

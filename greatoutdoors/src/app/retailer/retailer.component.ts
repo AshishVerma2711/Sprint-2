@@ -30,7 +30,7 @@ export class RetailerComponent implements OnInit {
     zipcode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]),
     city: new FormControl('', [Validators.required]),
     state: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/[6789][0-9]{9}/)]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^[6789][0-9]{9}$/)]),
     email: new FormControl('', [Validators.required, Validators.email])
   })
 

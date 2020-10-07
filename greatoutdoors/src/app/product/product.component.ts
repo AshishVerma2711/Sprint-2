@@ -80,7 +80,7 @@ export class ProductComponent implements OnInit {
     productId: new FormControl({ disabled: true }),
     productName: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
     category: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
-    description: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
+    description: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
     manufacturer: new FormControl('', [Validators.required, Validators.pattern(/^[A-Z]{1}[a-zA-Z0-9:,.\s-]{0,}$/)]),
   })
