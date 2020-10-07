@@ -3,12 +3,13 @@ import { NgForm, NgModel } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { RestService } from '../rest.service';
 import { formatDate } from '@angular/common';
-
+import {ResultSet} from '../ResultSet'
 @Component({
   selector: 'app-basic',
   templateUrl: './basic.component.html',
   styleUrls: ['./basic.component.css']
 })
+
 
 export class BasicComponent implements OnInit {
 
@@ -16,13 +17,20 @@ export class BasicComponent implements OnInit {
   public show: boolean = false;
   public buttonName: any = 'Single Date';
 
+  displayedColumns = ['category', 'val']
+  table: ResultSet[];
   data: any;
+  
   dataType = { "table": false, "number": true }
   dataHeader: string;
   dataDescription: string;
   expansion = {}
   @ViewChild('OptionA')
   optionA: NgForm;
+  @ViewChild('OptionB')
+  optionB: NgForm;
+  @ViewChild('OptionC')
+  optionC: NgForm;
   constructor(private _service: RestService) {
   }
   step = 0;
@@ -51,32 +59,30 @@ export class BasicComponent implements OnInit {
   submit1() {
     // console.log('>>>>>Submit: ',formatDate(this.optionA.form.getRawValue().from, 'yyyy-MM-dd', 'en'))
     if (this.optionA.form.value.status === 'All') {
+      this.data = 0;
       if (this.show) {
-        let qty = 0;
         this._service.orderPlaced(
           formatDate(this.optionA.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
           formatDate(this.optionA.form.getRawValue().to, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-            qty = qty + parseInt(data)
+            this.data = parseInt(data)
           })
         this._service.orderCancelled(
           formatDate(this.optionA.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
           formatDate(this.optionA.form.getRawValue().to, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-            qty = qty + parseInt(data)
+            this.data = this.data + parseInt(data)
           })
-        this.data = qty
         this.dataType['number'] = true;
         this.dataType['table'] = false;
         return
       }
       else {
-        let qty = 0;
-        this._service.orderPlacedOn(formatDate(this.optionA.form.getRawValue().date, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-          qty = qty + parseInt(data)
+        this.data=0;
+        this._service.orderPlacedOn(formatDate(this.optionA.form.getRawValue().date, 'yyyy-MM-dd', 'en')).subscribe((data: number) => {
+          this.data = data
         })
         this._service.orderCancelledOn(formatDate(this.optionA.form.getRawValue().date, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-          qty = qty + parseInt(data)
-        })
-        this.data = qty
+          this.data = this.data + parseInt(data)
+        })        
         this.dataType['number'] = true;
         this.dataType['table'] = false;
         return
@@ -84,24 +90,23 @@ export class BasicComponent implements OnInit {
     }
     else
       if (this.optionA.form.value.status === 'Delivered') {
+        this.data = 0
         if (this.show) {
-          let qty = 0;
           this._service.orderPlaced(
             formatDate(this.optionA.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
             formatDate(this.optionA.form.getRawValue().to, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-              qty = qty + parseInt(data)
+              this.data = this.data + parseInt(data)
             })
-          this.data = qty
           this.dataType['number'] = true;
           this.dataType['table'] = false;
           return
         }
         else {
-          let qty = 0;
+          this.data = 0;
           this._service.orderPlacedOn(formatDate(this.optionA.form.getRawValue().date, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-            qty = qty + parseInt(data)
+            this.data = this.data + parseInt(data)
           })
-          this.data = qty
+          this.data = this.data
           this.dataType['number'] = true;
           this.dataType['table'] = false;
           return
@@ -109,23 +114,21 @@ export class BasicComponent implements OnInit {
       }
       else {
         if (this.show) {
-          let qty = 0;
+          this.data = 0;
           this._service.orderCancelled(
             formatDate(this.optionA.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
             formatDate(this.optionA.form.getRawValue().to, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-              qty = qty + parseInt(data)
+              this.data = this.data + parseInt(data)
             })
-          this.data = qty
           this.dataType['number'] = true;
           this.dataType['table'] = false;
           return
         }
         else {
-          let qty = 0;
+          this.data = 0;
           this._service.orderCancelledOn(formatDate(this.optionA.form.getRawValue().date, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
-            qty = qty + parseInt(data)
+            this.data = this.data + parseInt(data)
           })
-          this.data = qty
           this.dataType['number'] = true;
           this.dataType['table'] = false;
           return
@@ -134,10 +137,81 @@ export class BasicComponent implements OnInit {
   }
 
   submit2() {
-
+    this.table = []
+    if (this.optionB.form.value.status === 'All') {
+      if (this.show) {
+        this._service.costOfOrderForStatue(
+          formatDate(this.optionB.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
+          formatDate(this.optionB.form.getRawValue().to, 'yyyy-MM-dd', 'en'), "Delivered").subscribe((data: ResultSet[]) => {
+            // this.data.concat(data)
+            this.table = data
+            console.log("in table data = ", this.table)
+          })
+        this._service.costOfOrderForStatue(
+          formatDate(this.optionB.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
+          formatDate(this.optionB.form.getRawValue().to, 'yyyy-MM-dd', 'en'), "Cancelled").subscribe((data: ResultSet[]) => {
+            // this.data.concat(data)
+            this.table =  this.table.concat(data)
+            console.log("in table data = ", this.table)
+          })
+        this.dataType['number'] = false;
+        this.dataType['table'] = true;
+        return
+      }
+      else {
+        console.log(">> data Initial= ",this.data)
+        this._service.costOfOrderForStatueOn(formatDate(this.optionB.form.getRawValue().date, 'yyyy-MM-dd', 'en'), "Delivered").subscribe((data: ResultSet[]) => {
+          this.table = data
+        })
+        console.log(">> data Final= ",this.data)
+        this._service.costOfOrderForStatueOn(formatDate(this.optionB.form.getRawValue().date, 'yyyy-MM-dd', 'en'), "Cancelled").subscribe((data: ResultSet[]) => {
+          this.table = this.table.concat(data)
+        })        
+        this.dataType['number'] = false;
+        this.dataType['table'] = true;
+        return
+      }
+    }
+    else{
+        if (this.show) {
+          this._service.costOfOrderForStatue(
+            formatDate(this.optionB.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
+            formatDate(this.optionB.form.getRawValue().to, 'yyyy-MM-dd', 'en'), this.optionB.form.value.status).subscribe((data:ResultSet[]) => {
+              this.table = data
+            })
+          this.dataType['number'] = false;
+          this.dataType['table'] = true;
+          return
+        }
+        else {
+          this._service.costOfOrderForStatueOn(formatDate(this.optionB.form.getRawValue().date, 'yyyy-MM-dd', 'en'), this.optionB.form.value.status).subscribe((data: ResultSet[]) => {
+            this.table = this.table.concat(data)
+          })
+          this.dataType['number'] = false;
+          this.dataType['table'] = true;
+          return
+        }
+      } 
   }
 
   submit3() {
+      this.data = 0;
+      if (this.show) {
+        this._service.revenueGenerated(
+          formatDate(this.optionC.form.getRawValue().from, 'yyyy-MM-dd', 'en'),
+          formatDate(this.optionC.form.getRawValue().to, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
+            this.data = parseInt(data)
+          })
+        }
+        else{
+        this._service.revenueGeneratedOn(
+          formatDate(this.optionC.form.getRawValue().date, 'yyyy-MM-dd', 'en')).subscribe((data: string) => {
+            this.data = parseInt(data)
+          })
+        this.dataType['number'] = true;
+        this.dataType['table'] = false;
+        return
+      } 
 
   }
 
