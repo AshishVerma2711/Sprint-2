@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'greatoutdoors';
+
+  logout(){
+    window.location.href="http://localhost:4300";
+  }
 }
